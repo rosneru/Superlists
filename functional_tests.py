@@ -14,7 +14,7 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
     def test_can_start_a_list_and_retrive_it_later(self):
-        # Edith hat von einer neuen, coolen online App gehört, die 
+        # Edith hat von einer neuen, coolen Online-App gehört, die 
         # To-Do-Listen verwalten kann. Sie geht gleich mal auf die 
         # Homepage..
         self.browser.get('http://localhost:8000')
