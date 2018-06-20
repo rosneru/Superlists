@@ -5,6 +5,8 @@
 
 
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
@@ -23,18 +25,34 @@ class NewVisitorTest(unittest.TestCase):
         # Sie bemerkt, dass der Seiten-Titel den Text "To-Do" 
         # beinhaltet
         self.assertIn('To-Do', self.browser.title)
-        self.fail('Finish the test.')
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
 
         # In eine Textbox kann sie einen ersten To-Do-Eintrag eingeben
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a to-do item'
+        )
 
-        # Sie schreibt "Kaufe blaue Pfauenfedern" in die Textbox
+        # Sie schreibt "Kaufe Pfauenfedern" in die Textbox
+        inputbox.send_keys('Kaufe Pfauenfedern')
 
         # Sobald sie ENTER drückt, wird die Seite aktualisiert und 
-        # zeigt nun an "1: Kaufe blaue Pfauenfedern" als ein Eintrag 
-        # in einer To-Do-Liste
+        # zeigt nun an "1: Kaufe Pfauenfedern" als ein Eintrag in
+        # einer To-Do-Listen-Tabelle
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: Kaufe Pfauenfedern' for row in rows)
+        )
 
         # Die Textbox zur Eingabe von To-Do-Einträgen ist immer noch 
         # da. Sie gibt nun ein: "Stelle die Pfauenfedern in eine Vase"
+        self.fail('Finish the test!')
 
         # Die Seite aktualisiert sich erneut und zeigt nun beide 
         # Einträge in der To-Do-Liste an
