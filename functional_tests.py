@@ -3,6 +3,7 @@
 #
 # Erstellt wird eine To-Do-Listen-WebApp 
 
+
 from selenium import webdriver
 import unittest
 
@@ -39,8 +40,8 @@ class NewVisitorTest(unittest.TestCase):
         # Einträge in der To-Do-Liste an
 
         # Edith fragt sich, ob die Seite sich ihre Liste merken kann. 
-        # Dann bemerkt sie, dass die Seite eine individuelle URL für sie 
-        # erstellt hat -- Dazu gibt es auch einen erklärenden Text
+        # Dann bemerkt sie, dass die Seite eine individuelle URL für 
+        # sie erstellt hat -- Dazu gibt es auch einen erklärenden Text
 
         # Sie ruft die URL auf - Ihre To-Do-Liste ist noch da.
 
