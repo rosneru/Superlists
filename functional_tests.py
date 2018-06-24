@@ -46,21 +46,28 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Kaufe Pfauenfedern' for row in rows),
-            'New to-do item did not appear in table'
-        )
+        self.assertIn('1: Kaufe Pfauenfedern', [row.text for row in rows])
 
         # Die Textbox zur Eingabe von To-Do-Einträgen ist immer noch 
         # da. Sie gibt nun ein: "Stelle die Pfauenfedern in eine Vase"
-        self.fail('Finish the test!')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Stelle die Pfauenfedern in eine Vase')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # Die Seite aktualisiert sich erneut und zeigt nun beide 
         # Einträge in der To-Do-Liste an
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Kaufe Pfauenfedern', [row.text for row in rows])
+        self.assertIn(
+            '2: Stelle die Pfauenfedern in eine Vase', 
+            [row.text for row in rows])
 
         # Edith fragt sich, ob die Seite sich ihre Liste merken kann. 
         # Dann bemerkt sie, dass die Seite eine individuelle URL für 
         # sie erstellt hat -- Dazu gibt es auch einen erklärenden Text
+        self.fail('Finish the test!')
 
         # Sie ruft die URL auf - Ihre To-Do-Liste ist noch da.
 
