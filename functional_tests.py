@@ -16,6 +16,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrive_it_later(self):
         # Edith hat von einer neuen, coolen Online-App gehört, die 
         # To-Do-Listen verwalten kann. Sie geht gleich mal auf die 
@@ -43,10 +48,7 @@ class NewVisitorTest(unittest.TestCase):
         # einer To-Do-Listen-Tabelle
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Kaufe Pfauenfedern', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Kaufe Pfauenfedern')
 
         # Die Textbox zur Eingabe von To-Do-Einträgen ist immer noch 
         # da. Sie gibt nun ein: "Stelle die Pfauenfedern in eine Vase"
@@ -57,12 +59,8 @@ class NewVisitorTest(unittest.TestCase):
 
         # Die Seite aktualisiert sich erneut und zeigt nun beide 
         # Einträge in der To-Do-Liste an
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Kaufe Pfauenfedern', [row.text for row in rows])
-        self.assertIn(
-            '2: Stelle die Pfauenfedern in eine Vase', 
-            [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Kaufe Pfauenfedern')
+        self.check_for_row_in_list_table('2: Stelle die Pfauenfedern in eine Vase')
 
         # Edith fragt sich, ob die Seite sich ihre Liste merken kann. 
         # Dann bemerkt sie, dass die Seite eine individuelle URL für 
