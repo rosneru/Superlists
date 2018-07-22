@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "c:\\Users\\uwero\\.virtualenvs\\superlists\\Scripts\\python",
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+    ]
 }
