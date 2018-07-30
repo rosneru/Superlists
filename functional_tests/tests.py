@@ -3,13 +3,12 @@
 #
 # Erstellt wird eine To-Do-Listen-WebApp 
 
-
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
     
@@ -25,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
         # Edith hat von einer neuen, coolen Online-App gehört, die 
         # To-Do-Listen verwalten kann. Sie geht gleich mal auf die 
         # Homepage..
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Sie bemerkt, dass der Seiten-Titel den Text "To-Do" 
         # beinhaltet
@@ -68,6 +67,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail('Finish the test!')
 
         # Sie ruft die URL auf - Ihre To-Do-Liste ist noch da.
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
