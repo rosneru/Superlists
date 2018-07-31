@@ -2,5 +2,10 @@
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
-    "python.pythonPath": "C:\\Development\\Python\\Python36\\python.exe"
+    "python.pythonPath": "C:\\Development\\Python\\Python36\\python.exe",
+    "workbench.colorCustomizations": {
+        "[Default Dark+]": {
+            "tab.activeBackground": "#2b7199"
+        }}
+    }
 }
