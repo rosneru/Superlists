@@ -31,7 +31,7 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-    def test_can_start_a_list_and_retrive_it_later(self):
+    def test_can_start_a_list_for_one_user(self):
         # Edith hat von einer neuen, coolen Online-App gehört, die 
         # To-Do-Listen verwalten kann. Sie geht gleich mal auf die 
         # Homepage..
@@ -75,6 +75,35 @@ class NewVisitorTest(LiveServerTestCase):
         # Edith fragt sich, ob die Seite sich ihre Liste merken kann. 
         # Dann bemerkt sie, dass die Seite eine individuelle URL für 
         # sie erstellt hat -- Dazu gibt es auch einen erklärenden Text
-        self.fail('Finish the test!')
+        #self.fail('Finish the test!')
 
         # Sie ruft die URL auf - Ihre To-Do-Liste ist noch da.
+
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        # Edith startet eine neue To-do-Liste
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Kaufe Pfauenfedern')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Kaufe Pfauenfedern')
+
+        # Sie bemerkt, dass ihre Liste eine individuelle URL hat
+        edith_list_url = self.browser.current_url
+        self.assertRegex(edith_list_url, '/lists/.+')
+
+        # Nun besucht der neue Benutzer Francis die Seite
+
+        ## Wir starten eine neue Browser-Sitzung um sicherzugehen,
+        ## dass keine Information (Cookies etc) aus Ediths Sitzung
+        ## wieder verwendet wird
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # Francis besucht die Homepage. Ediths Liste ist nicht zu 
+        # sehen
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Kaufe Pfauenfedern', page_text)
+        self.assertNotIn('Stelle die Pfauenfedern in eine Vase', page_text)
+        self.assertIn('Kaufe Milch', page_text)
+
