@@ -105,5 +105,20 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Kaufe Pfauenfedern', page_text)
         self.assertNotIn('Stelle die Pfauenfedern in eine Vase', page_text)
-        self.assertIn('Kaufe Milch', page_text)
 
+        # Francis startet eine neue Liste, indem er ein neues Item 
+        # eingibt
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Kaufe Milch')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Kaufe Milch')
+
+        # Francis bekommt seine eigene URL
+        francis_list_url = self.browser.current_url
+        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertNotEqual(francis_list_url, edith_list_url)
+
+        # Erneut ist Edith Liste nicht zu sehen
+        page_text = self.find_element_by_tag_name('body').text
+        self.assertNotIn('Kaufe Pfauenfedern', page_text)
+        self.assertIn('Kaufe Milch', page_text)
