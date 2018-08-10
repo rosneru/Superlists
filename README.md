@@ -18,6 +18,6 @@ Development with Python: Obey the Testing Goat* by *Harry Percival*
 * Windows 10 Professional
 * Visual Studio Code
 * Python 3.6
-* Geckodriver 0.22 and Firefox
+* Geckodriver 0.21 and Firefox
 * Django 1.11
 * Selenium 3.4.3
